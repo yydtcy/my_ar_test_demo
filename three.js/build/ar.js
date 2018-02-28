@@ -5945,7 +5945,7 @@ ARjs.Source.prototype._initSourceWebcam = function(onReady, onError) {
             ) {
                 temp = temp + 1;
                 console.warn('111')
-                backVideoInputId = devices[1].deviceId;
+                backVideoInputId = devices[i].deviceId;
                 if (temp === 2)
                     break;
             }
