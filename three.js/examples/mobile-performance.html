@@ -135,12 +135,12 @@
 	// add a torus knot	
 	var geometry = new THREE.CubeGeometry(1, 1, 1);
 	var texture = THREE.ImageUtils.loadTexture("./models/1.png");
-	/*var material	= new THREE.MeshNormalMaterial({
+	var material	= new THREE.MeshNormalMaterial({
 		transparent : true,
 		opacity: 0.5,
 		side: THREE.DoubleSide
-	});*/
-	var material = new THREE.MeshLambertMaterial({map: texture});
+	});
+	//var material = new THREE.MeshLambertMaterial({map: texture});
 	var mesh	= new THREE.Mesh( geometry, material );
 	mesh.position.y	= geometry.parameters.height/2
 	arWorldRoot.add( mesh );
