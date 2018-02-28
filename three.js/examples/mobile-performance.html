@@ -133,18 +133,41 @@
 	var arWorldRoot = smoothedRoot
 
 	// add a torus knot	
-	/*var geometry = new THREE.CubeGeometry(1, 1, 1);
-	var texture = THREE.ImageUtils.loadTexture("./models/1.png");
-	var material	= new THREE.MeshNormalMaterial({
+	var geometry = new THREE.CubeGeometry(1, 1, 1);
+//	var texture = THREE.ImageUtils.loadTexture("./models/1.png");
+	/*var material	= new THREE.MeshNormalMaterial({
 		transparent : true,
 		opacity: 0.5,
 		side: THREE.DoubleSide
-	}); 
-	var mesh	= new THREE.Mesh( geometry, material );
-	mesh.position.y	= geometry.parameters.height/2
-	arWorldRoot.add( mesh );*/
+	}); */
+	var material1 = new THREE.MeshPhongMaterial({
+	    map: THREE.ImageUtils.loadTexture('./models/1.png')
+	});
+	var material2 = new THREE.MeshPhongMaterial({
+	    map: THREE.ImageUtils.loadTexture('./models/1.png')
+	});
+	var material3 = new THREE.MeshPhongMaterial({
+	    map: THREE.ImageUtils.loadTexture('./models/1.png')
+	});
+	var material4 = new THREE.MeshPhongMaterial({
+	    map: THREE.ImageUtils.loadTexture('./models/1.png')
+	});
+	var material5 = new THREE.MeshPhongMaterial({
+	    map: THREE.ImageUtils.loadTexture('./models/1.png')
+	});
+	var material6 = new THREE.MeshPhongMaterial({
+	    map: THREE.ImageUtils.loadTexture('./models/1.png')
+	});
 
-	var box = new THREE.BoxGeometry(1, 1, 1);//长宽高尺寸70,255,480
+	var materials = [material1, material2, material3, material4, material5, material6];
+
+	var meshFaceMaterial = new THREE.MeshFaceMaterial(materials);
+
+	var mesh = new THREE.Mesh(geometry, meshFaceMaterial);
+	mesh.position.y	= geometry.parameters.height/2
+	arWorldRoot.add( mesh );
+
+	/*var box = new THREE.BoxGeometry(1, 1, 1);//长宽高尺寸70,255,480
 	//加载六个面的纹理贴图
 	var texture1 = THREE.ImageUtils.loadTexture("./models/1.png");
 	var texture2 = THREE.ImageUtils.loadTexture("./models/1.png");
@@ -165,7 +188,7 @@
 	var facematerial = new THREE.MeshFaceMaterial(materialArr);
 	var mesh = new THREE.Mesh(box, facematerial);//
 	mesh.position.y = geometry.parameters.height / 2
-	arWorldRoot.add(mesh);
+	arWorldRoot.add(mesh);*/
 	
 	var geometry	= new THREE.TorusKnotGeometry(0.3,0.1,64,16);
 	var material	= new THREE.MeshNormalMaterial(); 
