@@ -1194,8 +1194,9 @@ var Qb=[Ik,Zh,_h,Qj,Qi,Pi,Ri,Ag,sg,qg,rg,yg,kh,jh,Oi,Mj];var Rb=[Jk,ki,ji,gi];va
 						        break;
 						}*/
 					    var sourceInfo = sources[i];
-					    if (sources.kind === 'video') {  
-					        exArray.push(sources.id);  
+					    if (sourceInfo.kind === 'video') {
+					        exArray.push(sourceInfo.id);
+					    }
 					}
 					if (facing && facing.exact && !hdConstraints.video.mandatory.sourceId) {
 						onError('Failed to get camera facing the wanted direction');
