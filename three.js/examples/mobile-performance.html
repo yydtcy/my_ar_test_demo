@@ -158,7 +158,7 @@
 	var material6 = new THREE.MeshPhongMaterial({
 	    map: THREE.ImageUtils.loadTexture('./models/6.jpg')
 	});
-
+	renderer.render(scene, camera);
 	var materials = [material1, material2, material3, material4, material5, material6];
 
 	var meshFaceMaterial = new THREE.MeshFaceMaterial(materials);
