@@ -133,17 +133,39 @@
 	var arWorldRoot = smoothedRoot
 
 	// add a torus knot	
-	var geometry = new THREE.CubeGeometry(1, 1, 1);
+	/*var geometry = new THREE.CubeGeometry(1, 1, 1);
 	var texture = THREE.ImageUtils.loadTexture("./models/1.png");
 	var material	= new THREE.MeshNormalMaterial({
 		transparent : true,
 		opacity: 0.5,
 		side: THREE.DoubleSide
-	});
-	//var material = new THREE.MeshLambertMaterial({map: texture});
+	}); 
 	var mesh	= new THREE.Mesh( geometry, material );
 	mesh.position.y	= geometry.parameters.height/2
-	arWorldRoot.add( mesh );
+	arWorldRoot.add( mesh );*/
+
+	var box = new THREE.BoxGeometry(1, 1, 1);//长宽高尺寸70,255,480
+	//加载六个面的纹理贴图
+	var texture1 = THREE.ImageUtils.loadTexture("./models/1.png");
+	var texture2 = THREE.ImageUtils.loadTexture("./models/1.png");
+	var texture3 = THREE.ImageUtils.loadTexture("./models/1.png");
+	var texture4 = THREE.ImageUtils.loadTexture("./models/1.png");
+	var texture5 = THREE.ImageUtils.loadTexture("./models/1.png");
+	var texture6 = THREE.ImageUtils.loadTexture("./models/1.png");
+	var materialArr = [
+        //纹理对象赋值给6个材质对象
+        new THREE.MeshPhongMaterial({ map: texture1 }),
+        new THREE.MeshPhongMaterial({ map: texture2 }),
+        new THREE.MeshPhongMaterial({ map: texture3 }),
+        new THREE.MeshPhongMaterial({ map: texture4 }),
+        new THREE.MeshPhongMaterial({ map: texture5 }),
+        new THREE.MeshPhongMaterial({ map: texture6 })
+	];
+	//6个材质对象组成的数组赋值给MeshFaceMaterial构造函数
+	var facematerial = new THREE.MeshFaceMaterial(materialArr);
+	var mesh = new THREE.Mesh(box, facematerial);//
+	mesh.position.y = geometry.parameters.height / 2
+	arWorldRoot.add(mesh);
 	
 	var geometry	= new THREE.TorusKnotGeometry(0.3,0.1,64,16);
 	var material	= new THREE.MeshNormalMaterial(); 
