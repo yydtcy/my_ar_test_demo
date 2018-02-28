@@ -130,7 +130,7 @@
 	//		add an object in the scene
 	//////////////////////////////////////////////////////////////////////////////////
 
-	var arWorldRoot = smoothedRoot
+	/*var arWorldRoot = smoothedRoot
 
 	// add a torus knot	
 	var geometry	= new THREE.CubeGeometry(1,1,1);
@@ -151,11 +151,11 @@
 	
 	onRenderFcts.push(function(){
 		mesh.rotation.x += 0.1
-	})
+	})*/
 
 
 
-	/*var arWorldRoot = smoothedRoot
+	var arWorldRoot = smoothedRoot
 
 	var mtlLoader = new THREE.MTLLoader();//mtl材质加载器
 	mtlLoader.load('./models/obj/1.mtl', mtl);//加载.mtl文件，执行mtl函数
@@ -164,12 +164,13 @@
 	    var objLoader = new THREE.OBJLoader();//obj模型加载器
 	    objLoader.setMaterials(material);//mtl材质赋值给obj模型
 	    objLoader.load('./models/obj/1.obj', obj);//加载.obj文件，执行obj函数
+	    arWorldRoot.add(obj);//object3D对象插入场景对象
 	}
 	
-	function obj(object3D) {
-	    object3D.scale.set(1, 1, 1);//放大object3D对象
-	    arWorldRoot.add(object3D);//object3D对象插入场景对象
-	}*/
+	//function obj(object3D) {
+	  //  object3D.scale.set(1, 1, 1);//放大object3D对象
+	   // arWorldRoot.add(object3D);//object3D对象插入场景对象
+	//}
 
 
 	//////////////////////////////////////////////////////////////////////////////////
