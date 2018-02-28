@@ -1184,10 +1184,13 @@ var Qb=[Ik,Zh,_h,Qj,Qi,Pi,Ri,Ag,sg,qg,rg,yg,kh,jh,Oi,Mj];var Rb=[Jk,ki,ji,gi];va
 					if (facing && facing.exact) {
 						facingDir = facing.exact;
 					}
+					var temp = 0;
 					for (var i=0; i<sources.length; i++) {
 						if (sources[i].kind === 'video' && sources[i].facing === facingDir) {
-							hdConstraints.video.mandatory.sourceId = sources[i].id;
-							break;
+						    temp = temp + 1;
+						    hdConstraints.video.mandatory.sourceId = sources[i].id;
+						    if (temp === 2)
+						        break;
 						}
 					}
 					if (facing && facing.exact && !hdConstraints.video.mandatory.sourceId) {
