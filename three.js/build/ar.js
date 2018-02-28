@@ -5935,6 +5935,7 @@ ARjs.Source.prototype._initSourceWebcam = function(onReady, onError) {
 
 	// get available devices
     navigator.mediaDevices.enumerateDevices().then(function (devices) {
+
         var backVideoInputId = false
         for (var i = devices.length - 1; i >= 0; i--) {
             if (
