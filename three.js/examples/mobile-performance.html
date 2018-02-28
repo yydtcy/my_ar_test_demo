@@ -129,7 +129,7 @@
 	//		add an object in the scene
 	//////////////////////////////////////////////////////////////////////////////////
 
-	/*var arWorldRoot = smoothedRoot
+	var arWorldRoot = smoothedRoot
 
 	// add a torus knot	
 	var geometry	= new THREE.CubeGeometry(1,1,1);
@@ -150,61 +150,24 @@
 	
 	onRenderFcts.push(function(){
 		mesh.rotation.x += 0.1
-	})*/
+	})
 
-	// var arWorldRoot = markerRoot
-	var arWorldRoot = smoothedRoot
+	/*var arWorldRoot = smoothedRoot
 
-	//	var mesh = new THREE.AxisHelper()
-	// markerRoot.add(mesh)
-	//arWorldRoot.add(mesh)
-
-	//var loader = new THREE.ColladaLoader();
-	//var loader = new THREE.OBJLoader();
-
-	/**
- * 加载红色立方体的.obj和.mtl文件，生成网格模型
- */
 	var mtlLoader = new THREE.MTLLoader();//mtl材质加载器
 	mtlLoader.load('./models/obj/1.mtl', mtl);//加载.mtl文件，执行mtl函数
-	/**声明函数mtl*/
+	
 	function mtl(material) {
 	    var objLoader = new THREE.OBJLoader();//obj模型加载器
 	    objLoader.setMaterials(material);//mtl材质赋值给obj模型
 	    objLoader.load('./models/obj/1.obj', obj);//加载.obj文件，执行obj函数
 	}
-	/**声明函数obj*/
+	
 	function obj(object3D) {
 	    object3D.scale.set(1, 1, 1);//放大object3D对象
 	    arWorldRoot.add(object3D);//object3D对象插入场景对象
-	}
+	}*/
 
-	/*var loader = new THREE.FBXLoader(manager);
-	loader.load('./models/obj/2.FBX', function (object) {
-	    object.scale.multiplyScalar(.1);    // 缩放模型大小
-	    scene.add(object);
-	}, onProgress, onError);*/
-
-	//loader.options.convertUpAxis = true;
-	//loader.load('./models/obj/2.FBX', function (collada) {
-	//  dae = collada.scene;
-	//  dae.traverse(function (child) {
-	//       if (child instanceof THREE.SkinnedMesh) {
-	//        var animation = new THREE.Animation(child, child.geometry.animation);
-	//       animation.play();
-	//  }
-	//   });
-	//  dae.scale.x = dae.scale.y = dae.scale.z = 0.002;
-	// dae.updateMatrix();
-	//   init();
-	// animate();
-	//});
-
-	//arWorldRoot.add( mesh );
-
-	//onRenderFcts.push(function(delta){
-	//	mesh.rotation.x += delta * Math.PI
-	//})
 
 	//////////////////////////////////////////////////////////////////////////////////
 	//		render the whole thing on the page
