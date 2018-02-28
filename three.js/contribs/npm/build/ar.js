@@ -1198,25 +1198,37 @@ var Qb=[Ik,Zh,_h,Qj,Qi,Pi,Ri,Ag,sg,qg,rg,yg,kh,jh,Oi,Mj];var Rb=[Jk,ki,ji,gi];va
 					video: mediaDevicesConstraints
 				}).then(success, onError);
 			} else {
+			    var exArray = []; //存储设备源ID  
 				MediaStreamTrack.getSources(function(sources) {
 					var facingDir = mediaDevicesConstraints.facingMode;
 					if (facing && facing.exact) {
 						facingDir = facing.exact;
 					}
-					var temp = 0;
+					//var temp = 0;
 					for (var i=0; i<sources.length; i++) {
-						if (sources[i].kind === 'video' && sources[i].facing === facingDir) {
+					/*	if (sources[i].kind === 'video' && sources[i].facing === facingDir) {
 						    temp = temp + 1;
 						    hdConstraints.video.mandatory.sourceId = sources[i].id;
 						    if (temp === 2)
 						        break;
-						}
+						}*/
+					    var sourceInfo = sources[i];
+					    if (sources.kind === 'video') {  
+					        exArray.push(sources.id);  
 					}
 					if (facing && facing.exact && !hdConstraints.video.mandatory.sourceId) {
 						onError('Failed to get camera facing the wanted direction');
 					} else {
 						if (navigator.getUserMedia) {
-							navigator.getUserMedia(hdConstraints, success, onError);
+						    //navigator.getUserMedia(hdConstraints, success, onError);
+						    navigator.getUserMedia({  
+						        'video': {  
+						            'optional': [{  
+						                'sourceId': exArray[1] //0为前置摄像头，1为后置  
+						            }]  
+						        },  
+						        'audio':true  
+						    }, successFunc, errorFunc);    //success是获取成功的回调函数  
 						} else {
 							onError('navigator.getUserMedia is not supported on your browser');
 						}
