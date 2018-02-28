@@ -158,7 +158,7 @@
 	var material6 = new THREE.MeshPhongMaterial({
 	    map: THREE.ImageUtils.loadTexture('./models/6.jpg')
 	});
-	renderer.render(scene, camera);
+	
 	var materials = [material1, material2, material3, material4, material5, material6];
 
 	var meshFaceMaterial = new THREE.MeshFaceMaterial(materials);
@@ -166,7 +166,7 @@
 	var mesh = new THREE.Mesh(geometry, meshFaceMaterial);
 	mesh.position.y	= geometry.parameters.height/2
 	arWorldRoot.add( mesh );
-
+	renderer.render(scene, camera);
 	/*var box = new THREE.BoxGeometry(1, 1, 1);//长宽高尺寸70,255,480
 	//加载六个面的纹理贴图
 	var texture1 = THREE.ImageUtils.loadTexture("./models/1.png");
