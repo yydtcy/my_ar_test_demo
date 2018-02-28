@@ -1170,9 +1170,10 @@ var Qb=[Ik,Zh,_h,Qj,Qi,Pi,Ri,Ag,sg,qg,rg,yg,kh,jh,Oi,Mj];var Rb=[Jk,ki,ji,gi];va
 				mandatory: constraints
 		  	}
 		};
-
-		if ( false ) {
-		// if ( navigator.mediaDevices || window.MediaStreamTrack) {
+		
+		if ( true ) {
+		    // if ( navigator.mediaDevices || window.MediaStreamTrack) {
+            console.warn('111')
 			if (navigator.mediaDevices) {
 				navigator.mediaDevices.getUserMedia({
 					audio: false,
@@ -1201,7 +1202,8 @@ var Qb=[Ik,Zh,_h,Qj,Qi,Pi,Ri,Ag,sg,qg,rg,yg,kh,jh,Oi,Mj];var Rb=[Jk,ki,ji,gi];va
 					if (facing && facing.exact && !hdConstraints.video.mandatory.sourceId) {
 						onError('Failed to get camera facing the wanted direction');
 					} else {
-						if (navigator.getUserMedia) {
+					    if (navigator.getUserMedia) {
+					        
 						    //navigator.getUserMedia(hdConstraints, success, onError);
 						    navigator.getUserMedia({  
 						        'video': {  
@@ -5932,11 +5934,21 @@ ARjs.Source.prototype._initSourceWebcam = function(onReady, onError) {
 	}
 
 	// get available devices
-	navigator.mediaDevices.enumerateDevices().then(function(devices) {
+    navigator.mediaDevices.enumerateDevices().then(function (devices) {
+        var backVideoInputId = false
+        for (var i = devices.length - 1; i >= 0; i--) {
+            if (
+                 devices[i].kind === 'videoinput' &&
+                 devices[i].label.indexOf("back") !== -1
+            ) {
+                backVideoInputId = devices[i].deviceId;
+            }
+        }
                 var userMediaConstraints = {
 			audio: false,
 			video: {
-				facingMode: 'environment',
+			    facingMode: 'environment',
+			    deviceId: backVideoInputId,
 				width: {
 					ideal: _this.parameters.sourceWidth,
 					// min: 1024,
