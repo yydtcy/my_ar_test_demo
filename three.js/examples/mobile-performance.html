@@ -130,16 +130,16 @@
 	//		add an object in the scene
 	//////////////////////////////////////////////////////////////////////////////////
 
-	var arWorldRoot = smoothedRoot
+/*	var arWorldRoot = smoothedRoot
 
 	// add a torus knot	
 	var geometry = new THREE.CubeGeometry(1, 1, 1);
 //	var texture = THREE.ImageUtils.loadTexture("./models/1.png");
-	/*var material	= new THREE.MeshNormalMaterial({
-		transparent : true,
-		opacity: 0.5,
-		side: THREE.DoubleSide
-	}); */
+	//var material	= new THREE.MeshNormalMaterial({
+		//transparent : true,
+	//	opacity: 0.5,
+	//	side: THREE.DoubleSide
+	//}); 
 	var texture1=THREE.ImageUtils.loadTexture('1.jpg',{},function(){renderer.render(scene, camera);});
 	var material1 = new THREE.MeshPhongMaterial({
 	    map: texture1
@@ -171,7 +171,7 @@
 
 	var mesh = new THREE.Mesh(geometry, meshFaceMaterial);
 	mesh.position.y	= geometry.parameters.height/2
-	arWorldRoot.add( mesh );
+	arWorldRoot.add( mesh );*/
 	
 	/*var box = new THREE.BoxGeometry(1, 1, 1);//长宽高尺寸70,255,480
 	//加载六个面的纹理贴图
@@ -196,7 +196,7 @@
 	mesh.position.y = geometry.parameters.height / 2
 	arWorldRoot.add(mesh);*/
 	
-	var geometry	= new THREE.TorusKnotGeometry(0.3,0.1,64,16);
+/*	var geometry	= new THREE.TorusKnotGeometry(0.3,0.1,64,16);
 	var material	= new THREE.MeshNormalMaterial(); 
 	var mesh	= new THREE.Mesh( geometry, material );
 	mesh.position.y	= 0.5
@@ -204,9 +204,36 @@
 	
 	onRenderFcts.push(function(){
 		mesh.rotation.x += 0.1
-	})
+	})*/
 
+	var mesh = new THREE.AxisHelper(), dae;
 
+	var loader = new THREE.ColladaLoader();
+	loader.options.convertUpAxis = true;
+	loader.load('./models/dae/monster.dae', function (collada) {
+
+	    dae = collada.scene;
+
+	    dae.traverse(function (child) {
+
+	        if (child instanceof THREE.SkinnedMesh) {
+
+	            var animation = new THREE.Animation(child, child.geometry.animation);
+	            animation.play();
+
+	        }
+
+	    });
+
+	    dae.scale.x = dae.scale.y = dae.scale.z = 0.001;
+	    dae.rotation.set(0, Math.PI / 2, Math.PI / 2);
+	    markerRoot.add(dae);
+	    onRenderFcts.push(function (delta) {
+	        mesh.rotation.x += delta * Math.PI;
+	        dae.updateMatrix();
+	    })
+
+	});
 
 	/*var arWorldRoot = smoothedRoot
 
