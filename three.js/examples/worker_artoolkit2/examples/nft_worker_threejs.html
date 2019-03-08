@@ -35,14 +35,14 @@ html,body {
 
 <script>
 
-window.ARThreeOnLoad = function() {
+/*window.ARThreeOnLoad = function() {
 
 	ARController.getUserMediaThreeScene({maxARVideoSize: 320, cameraParam: '../../../../data/data/camera_para.dat', 
 	onSuccess: function(arScene, arController, arCamera) {
 
 		var proxy = new ARProxy(arController, '../../../../data/data/camera_para.dat', function() { console.log("got new", arguments); });
 
-		/*proxy.addEventListener('load', function(ev) {
+		proxy.addEventListener('load', function(ev) {
 			console.log('ARController loaded', ev);
 
 			this.processingDone = false;
@@ -54,9 +54,9 @@ window.ARThreeOnLoad = function() {
 				arScene.scene.add(markerRoot);
 				this.processingDone = true;
 			});
-		});*/
+		});
 
-		/*document.body.className = arController.orientation;
+		document.body.className = arController.orientation;
 
 		var renderer = new THREE.WebGLRenderer({antialias: true});
 		if (arController.orientation === 'portrait') {
@@ -115,7 +115,7 @@ window.ARThreeOnLoad = function() {
 			requestAnimationFrame(tick);
 		};
 
-		tick();*/
+		tick();
 
 	}});
 
@@ -123,7 +123,7 @@ window.ARThreeOnLoad = function() {
 
 };
 
-/*if (window.ARController && ARController.getUserMediaThreeScene) {
+if (window.ARController && ARController.getUserMediaThreeScene) {
 	ARThreeOnLoad();
 }*/
 </script>
