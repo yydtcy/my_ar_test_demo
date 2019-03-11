@@ -27,20 +27,20 @@ html,body {
 
 <p>&larr; <a href="index.html">Back to examples</a></p>
 
-<script async src="../../vendor/jsartoolkit5/build/artoolkit.min.js"></script>
-<script async src="../../../vendor/three.js/build/three.js"></script>
-<script async src="../../vendor/jsartoolkit5/js/artoolkit.three.js"></script>
+<script async src="../vendor/jsartoolkit5/build/artoolkit.min.js"></script>
+<script async src="../../vendor/three.js/build/three.js"></script>
+<script async src="../vendor/jsartoolkit5/js/artoolkit.three.js"></script>
 
-<script src="../../vendor/jsartoolkit5/js/artoolkit.proxy.js"></script>
+<script src="../vendor/jsartoolkit5/js/artoolkit.proxy.js"></script>
 
 <script>
 
 window.ARThreeOnLoad = function() {
 
-	/*ARController.getUserMediaThreeScene({maxARVideoSize: 320, cameraParam: '../../../../data/data/camera_para.dat', 
+	ARController.getUserMediaThreeScene({maxARVideoSize: 320, cameraParam: '../data/camera_para.dat', 
 	onSuccess: function(arScene, arController, arCamera) {
 
-		var proxy = new ARProxy(arController, '../../../../data/data/camera_para.dat', function() { console.log("got new", arguments); });
+		/*var proxy = new ARProxy(arController, '../../../../data/data/camera_para.dat', function() { console.log("got new", arguments); });
 
 		proxy.addEventListener('load', function(ev) {
 			console.log('ARController loaded', ev);
@@ -116,9 +116,9 @@ window.ARThreeOnLoad = function() {
 		};
 
 		tick();
-
-	}});
 */
+	}});
+
 	//delete window.ARThreeOnLoad;
 
 };
