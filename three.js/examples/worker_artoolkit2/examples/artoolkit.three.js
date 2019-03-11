@@ -5,31 +5,22 @@
 		/**
 			Helper for setting up a Three.js AR scene using the device camera as input.
 			Pass in the maximum dimensions of the video you want to process and onSuccess and onError callbacks.
-
 			On a successful initialization, the onSuccess callback is called with an ThreeARScene object.
 			The ThreeARScene object contains two THREE.js scenes (one for the video image and other for the 3D scene)
 			and a couple of helper functions for doing video frame processing and AR rendering.
-
 			Here's the structure of the ThreeARScene object:
 			{
 				scene: THREE.Scene, // The 3D scene. Put your AR objects here.
 				camera: THREE.Camera, // The 3D scene camera.
-
 				arController: ARController,
-
 				video: HTMLVideoElement, // The userMedia video element.
-
 				videoScene: THREE.Scene, // The userMedia video image scene. Shows the video feed.
 				videoCamera: THREE.Camera, // Camera for the userMedia video scene.
-
 				process: function(), // Process the current video frame and update the markers in the scene.
 				renderOn: function( THREE.WebGLRenderer ) // Render the AR scene and video background on the given Three.js renderer.
 			}
-
 			You should use the arScene.video.videoWidth and arScene.video.videoHeight to set the width and height of your renderer.
-
 			In your frame loop, use arScene.process() and arScene.renderOn(renderer) to do frame processing and 3D rendering, respectively.
-
 			@param {number} width - The maximum width of the userMedia video to request.
 			@param {number} height - The maximum height of the userMedia video to request.
 			@param {function} onSuccess - Called on successful initialization with an ThreeARScene object.
@@ -53,30 +44,21 @@
 
 		/**
 			Creates a Three.js scene for use with this ARController.
-
 			Returns a ThreeARScene object that contains two THREE.js scenes (one for the video image and other for the 3D scene)
 			and a couple of helper functions for doing video frame processing and AR rendering.
-
 			Here's the structure of the ThreeARScene object:
 			{
 				scene: THREE.Scene, // The 3D scene. Put your AR objects here.
 				camera: THREE.Camera, // The 3D scene camera.
-
 				arController: ARController,
-
 				video: HTMLVideoElement, // The userMedia video element.
-
 				videoScene: THREE.Scene, // The userMedia video image scene. Shows the video feed.
 				videoCamera: THREE.Camera, // Camera for the userMedia video scene.
-
 				process: function(), // Process the current video frame and update the markers in the scene.
 				renderOn: function( THREE.WebGLRenderer ) // Render the AR scene and video background on the given Three.js renderer.
 			}
-
 			You should use the arScene.video.videoWidth and arScene.video.videoHeight to set the width and height of your renderer.
-
 			In your frame loop, use arScene.process() and arScene.renderOn(renderer) to do frame processing and 3D rendering, respectively.
-
 			@param video Video image to use as scene background. Defaults to this.image
 		*/
 		ARController.prototype.createThreeScene = function(video) {
@@ -114,8 +96,12 @@
 			var scene = new THREE.Scene();
 			var camera = new THREE.Camera();
 			camera.matrixAutoUpdate = false;
-			camera.projectionMatrix.elements.set(this.getCameraMatrix());
-
+			//camera.projectionMatrix.elements.set(this.getCameraMatrix());
+			if (typeof camera.projectionMatrix.elements.set === "function") {
+				camera.projectionMatrix.elements.set(this.getCameraMatrix());
+			} else {
+				camera.projectionMatrix.elements=[].slice.call(this.getCameraMatrix());
+			}
 			scene.add(camera);
 
 
@@ -134,6 +120,9 @@
 				process: function() {
 					for (var i in self.threePatternMarkers) {
 						self.threePatternMarkers[i].visible = false;
+					}
+					for (var i in self.threeNFTMarkers) {
+						self.threeNFTMarkers[i].visible = false;
 					}
 					for (var i in self.threeBarcodeMarkers) {
 						self.threeBarcodeMarkers[i].visible = false;
@@ -166,15 +155,12 @@
 		/**
 			Creates a Three.js marker Object3D for the given marker UID.
 			The marker Object3D tracks the marker pattern when it's detected in the video.
-
 			Use this after a successful artoolkit.loadMarker call:
-
 			arController.loadMarker('/bin/Data/patt.hiro', function(markerUID) {
 				var markerRoot = arController.createThreeMarker(markerUID);
 				markerRoot.add(myFancyHiroModel);
 				arScene.scene.add(markerRoot);
 			});
-
 			@param {number} markerUID The UID of the marker to track.
 			@param {number} markerWidth The width of the marker, defaults to 1.
 			@return {THREE.Object3D} Three.Object3D that tracks the given marker.
@@ -189,17 +175,36 @@
 		};
 
 		/**
+			Creates a Three.js marker Object3D for the given NFT marker UID.
+			The marker Object3D tracks the NFT marker when it's detected in the video.
+			Use this after a successful artoolkit.loadNFTMarker call:
+			arController.loadNFTMarker('DataNFT/pinball', function(markerUID) {
+				var markerRoot = arController.createThreeNFTMarker(markerUID);
+				markerRoot.add(myFancyModel);
+				arScene.scene.add(markerRoot);
+			});
+			@param {number} markerUID The UID of the marker to track.
+			@param {number} markerWidth The width of the marker, defaults to 1.
+			@return {THREE.Object3D} Three.Object3D that tracks the given marker.
+		*/
+		ARController.prototype.createThreeNFTMarker = function(markerUID, markerWidth) {
+			this.setupThree();
+			var obj = new THREE.Object3D();
+			obj.markerTracker = this.trackNFTMarkerId(markerUID, markerWidth);
+			obj.matrixAutoUpdate = false;
+			this.threeNFTMarkers[markerUID] = obj;
+			return obj;
+		};
+
+		/**
 			Creates a Three.js marker Object3D for the given multimarker UID.
 			The marker Object3D tracks the multimarker when it's detected in the video.
-
 			Use this after a successful arController.loadMarker call:
-
 			arController.loadMultiMarker('/bin/Data/multi-barcode-4x3.dat', function(markerUID) {
 				var markerRoot = arController.createThreeMultiMarker(markerUID);
 				markerRoot.add(myFancyMultiMarkerModel);
 				arScene.scene.add(markerRoot);
 			});
-
 			@param {number} markerUID The UID of the marker to track.
 			@return {THREE.Object3D} Three.Object3D that tracks the given marker.
 		*/
@@ -215,15 +220,12 @@
 		/**
 			Creates a Three.js marker Object3D for the given barcode marker UID.
 			The marker Object3D tracks the marker pattern when it's detected in the video.
-
 			var markerRoot20 = arController.createThreeBarcodeMarker(20);
 			markerRoot20.add(myFancyNumber20Model);
 			arScene.scene.add(markerRoot20);
-
 			var markerRoot5 = arController.createThreeBarcodeMarker(5);
 			markerRoot5.add(myFancyNumber5Model);
 			arScene.scene.add(markerRoot5);
-
 			@param {number} markerUID The UID of the barcode marker to track.
 			@param {number} markerWidth The width of the marker, defaults to 1.
 			@return {THREE.Object3D} Three.Object3D that tracks the given marker.
@@ -257,7 +259,32 @@
 
 				}
 				if (obj) {
-					obj.matrix.elements.set(ev.data.matrix);
+					//obj.matrix.elements.set(ev.data.matrix);
+					if (typeof obj.matrix.elements.set === "function") {
+						obj.matrix.elements.set(ev.data.matrix);
+					} else {
+						obj.matrix.elements=[].slice.call(ev.data.matrix);
+					}
+					obj.visible = true;
+				}
+			});
+
+			/*
+				Listen to getNFTMarker events to keep track of Three.js markers.
+			*/
+			this.addEventListener('getNFTMarker', function(ev) {
+				var marker = ev.data.marker;
+				var obj;
+
+				obj = this.threeNFTMarkers[ev.data.marker.id];
+
+				if (obj) {
+					//obj.matrix.elements.set(ev.data.matrix);
+					if (typeof obj.matrix.elements.set === "function") {
+						obj.matrix.elements.set(ev.data.matrix);
+					} else {
+						obj.matrix.elements=[].slice.call(ev.data.matrix);
+					}
 					obj.visible = true;
 				}
 			});
@@ -268,7 +295,12 @@
 			this.addEventListener('getMultiMarker', function(ev) {
 				var obj = this.threeMultiMarkers[ev.data.multiMarkerId];
 				if (obj) {
-					obj.matrix.elements.set(ev.data.matrix);
+					//obj.matrix.elements.set(ev.data.matrix);
+					if (typeof obj.matrix.elements.set === "function") {
+						obj.matrix.elements.set(ev.data.matrix);
+					} else {
+						obj.matrix.elements=[].slice.call(ev.data.matrix);
+					}
 					obj.visible = true;
 				}
 			});
@@ -283,7 +315,12 @@
 				var obj = this.threeMultiMarkers[marker];
 				if (obj && obj.markers && obj.markers[subMarkerID]) {
 					var sub = obj.markers[subMarkerID];
-					sub.matrix.elements.set(ev.data.matrix);
+					//sub.matrix.elements.set(ev.data.matrix);
+					if (typeof sub.matrix.elements.set === "function") {
+						sub.matrix.elements.set(ev.data.matrix);
+					} else {
+						sub.matrix.elements=[].slice.call(ev.data.matrix);
+					}
 					sub.visible = (subMarker.visible >= 0);
 				}
 			});
@@ -292,6 +329,11 @@
 				Index of Three.js pattern markers, maps markerID -> THREE.Object3D.
 			*/
 			this.threePatternMarkers = {};
+
+			/**
+				Index of Three.js NFT markers, maps markerID -> THREE.Object3D.
+			*/
+			this.threeNFTMarkers = {};
 
 			/**
 				Index of Three.js barcode markers, maps markerID -> THREE.Object3D.
