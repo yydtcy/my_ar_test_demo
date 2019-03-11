@@ -27,26 +27,30 @@ html,body {
 
 <p>&larr; <a href="index.html">Back to examples</a></p>
 
-<script async src="../vendor/jsartoolkit5/build/artoolkit.min.js"></script>
-<script async src="../../vendor/three.js/build/three.js"></script>
-<script async src="../vendor/jsartoolkit5/js/artoolkit.three.js"></script>
 
-<script src="../vendor/jsartoolkit5/js/artoolkit.proxy.js"></script>
+<script async src="artoolkit.min.js"></script>
+<script async src="three.js"></script>
+<script async src="artoolkit.three.js"></script>
 
+<script src="artoolkit.proxy.js"></script>
 <script>
 
 window.ARThreeOnLoad = function() {
+//<script async src="../vendor/jsartoolkit5/build/artoolkit.min.js"></script>
+//<script async src="../../vendor/three.js/build/three.js"></script>
+//<script async src="../vendor/jsartoolkit5/js/artoolkit.three.js"></script>
 
-	ARController.getUserMediaThreeScene({maxARVideoSize: 320, cameraParam: '../../../../data/data/camera_para.dat', 
-	/*onSuccess: function(arScene, arController, arCamera) {
+//<script src="../vendor/jsartoolkit5/js/artoolkit.proxy.js"></script>
+	ARController.getUserMediaThreeScene({maxARVideoSize: 320, cameraParam: 'camera_para.dat', //../../../../data/data/
+	onSuccess: function(arScene, arController, arCamera) {
 
-		var proxy = new ARProxy(arController, '../../../../data/data/camera_para.dat', function() { console.log("got new", arguments); });
+		var proxy = new ARProxy(arController, 'camera_para.dat', function() { console.log("got new", arguments); });
 
 		proxy.addEventListener('load', function(ev) {
 			console.log('ARController loaded', ev);
 
 			this.processingDone = false;
-			this.loadNFTMarker('../../../../data/dataNFT/pinball', function(ev) {
+			this.loadNFTMarker('pinball', function(ev) {
 				console.log('Created NFT marker', ev.result[0]);
 			
 				var markerRoot = this.arController.createThreeNFTMarker(ev.result[0]);
@@ -117,15 +121,15 @@ window.ARThreeOnLoad = function() {
 
 		tick();
 
-	}*/});
+	}});
 
-	//delete window.ARThreeOnLoad;
+	delete window.ARThreeOnLoad;
 
 };
-/*
+
 if (window.ARController && ARController.getUserMediaThreeScene) {
 	ARThreeOnLoad();
-}*/
+}
 </script>
 
 </body>
